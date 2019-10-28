@@ -1,18 +1,27 @@
 #include <stdio.h>
+#include <stdbool.h>
 
-char playerType;
+char player1Type;
+char player2Type;
 
-int board[3][3] = {{0,2,0},
-                   {0,1,2},
-                   {0,1,0}};
+int currentPlayer = 0;
+
+char nextChoice[2];
+
+int board[3][3] = {{0,0,0},
+                   {0,0,0},
+                   {0,0,0}};
+
+const char rowTitles[] = {'A', 'B', 'C'};
+const char colTitles[] = {'1', '2', '3'};
 
 void printBoard() {
+    printf("\n    %c   %c   %c", colTitles[0], colTitles[1], colTitles[2]);
 
-    printf("\n\n");
-    printf("\n-------------\n");
+    printf("\n  -------------\n");
     for (int row = 0; row < 3; row++)
     {
-
+        printf("%c ", rowTitles[row]);
         printf("|");
         for (int col = 0; col < 3; col++)
         {
@@ -30,39 +39,123 @@ void printBoard() {
             }
             printf("|");
         }
-        printf("\n-------------\n");
-        
+        printf("\n  -------------\n");
     }
     
 }
 
+void readInPlayerMove() {
+    if (currentPlayer == 0) {
+        printf("\nPlayer1 enter your next field (e.g. A1): ");
+    } else {
+        printf("\nPlayer2 enter your next field (e.g. A1): ");
+    }
+    scanf("%s", &nextChoice);
+}
+
+int getRowFromUserInput() {
+    for (int i = 0; i < 3; i++)
+    {
+        if (rowTitles[i] == nextChoice[0])
+        {
+            return i;
+        }
+        
+    }
+    return 0;
+}
+
+int getColFromUserInput() {
+    for (int i = 0; i < 3; i++)
+    {
+        if (colTitles[i] == nextChoice[1])
+        {
+            return i;
+        }
+        
+    }
+    return 0;
+}
+
+bool checkForWinner() {
+
+    //check rows
+    for (int i = 0; i < 3; i++) {
+        if (board[i][0] == board[i][1] == board[i][2] && board[i][0] != 0 && board[i][1] != 0 && board[i][2] != 0)
+        {
+            return true;
+        }
+    }
+
+    //check colums
+    for (int i = 0; i < 3; i++)
+    {
+        if (board[0][i] == board[1][i] == board[2][i] && board[0][i] != 0 && board[1][i] != 0 && board[2][i] != 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+    
+}
+
+void executePlayerMove() {
+    int row = getRowFromUserInput();
+    int col = getColFromUserInput();
+    
+    if (currentPlayer == 0)
+    {
+        board[row][col] = 1;
+        currentPlayer = 1;
+    } else {
+        board[row][col] = 2;
+        currentPlayer = 0;
+    }    
+}
+
 void startGame() {
+    printf("\n\n----Let's start the game-----\n");
     printBoard();
+    while (!checkForWinner())
+    {
+        readInPlayerMove();
+        executePlayerMove();
+        printBoard();
+    }
+    
 }
 
 void getPlayerType() {
-    scanf("%s", &playerType);
-    if (playerType == 'X' || playerType == 'x')
+
+    scanf("%s", &player1Type);
+    printf("-------------------");
+    if (player1Type == 'X' || player1Type == 'x')
     {
-        printf("\nDu spielst mit X!");
+        player1Type = 'X';
+        player2Type = 'O';
+        printf("\nPlayer 1 spielt mit X\nPlayer 2 spielt mit O");
     }
-    else if (playerType == 'O' || playerType == 'o')
+    else if (player1Type == 'O' || player1Type == 'o')
     {
-        printf("\nDu spielst mit O!");
+        player1Type = 'O';
+        player2Type = 'X';
+        printf("\nPlayer 1 spielt mit O\nPlayer 2 spielt mit X");
     }  
+    printf("\n-------------------");
 }
 
 void printStartText() {
     printf("-----TIC TAC TOE-----\n");
-    printf("X: Play with X\n");
-    printf("O: Play with O\n");
-    printf("Enter your player choice: ");
+    printf("X/x: Play with X\n");
+    printf("O/o: Play with O\n");
+    printf("Player1 enter your player choice: ");
 }
 
 int main() {
     printStartText();
     getPlayerType();
-    startGame();
+    startGame();   
     return 0;
 }
 
