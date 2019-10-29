@@ -272,22 +272,22 @@ void getPlayerType() {
     {
         player1Type = 'X';
         player2Type = 'O';
-        printf("\nPlayer 1 spielt mit X\nPlayer 2 spielt mit O");
+        printf("\nPlayer 1 plays with X\nPlayer 2 plays with O");
     }
     else if (player1Type == 'O' || player1Type == 'o')
     {
         player1Type = 'O';
         player2Type = 'X';
-        printf("\nPlayer 1 spielt mit O\nPlayer 2 spielt mit X");
+        printf("\nPlayer 1 plays with O\nPlayer 2 plays with X");
     }  
     printf("\n-------------------");
 }
 
 /* prints a welcome message */
 void printStartText() {
-    printf("-----TIC TAC TOE-----\n");
+    printf("\n-----TIC TAC TOE-----\n\n");
     printf("X/x: Play with X\n");
-    printf("O/o: Play with O\n");
+    printf("O/o: Play with O\n\n");
     printf("Player1 enter your player choice: ");
 }
 
