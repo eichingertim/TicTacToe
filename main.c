@@ -31,11 +31,11 @@ void printBoard() {
             }
             else if (board[row][col] == 1)
             {
-                printf(" X ");
+                printf(" %c ", player1Type);
             }
             else
             {
-                printf(" O ");
+                printf(" %c ", player2Type);
             }
             printf("|");
         }
@@ -81,18 +81,24 @@ bool checkForWinner() {
 
     //check rows
     for (int i = 0; i < 3; i++) {
-        if (board[i][0] == board[i][1] == board[i][2] && board[i][0] != 0 && board[i][1] != 0 && board[i][2] != 0)
+        if (board[i][0] == board[i][1] && board[i][0] == board[i][2])
         {
-            return true;
+            if (board[i][0] != 0 && board[i][1] != 0 && board[i][2] != 0)
+            {
+                return true;
+            }
         }
     }
 
     //check colums
     for (int i = 0; i < 3; i++)
     {
-        if (board[0][i] == board[1][i] == board[2][i] && board[0][i] != 0 && board[1][i] != 0 && board[2][i] != 0)
+        if (board[0][i] == board[1][i] && board[0][i] == board[2][i])
         {
-            return true;
+            if (board[0][i] != 0 && board[1][i] != 0 && board[2][i] != 0)
+            {
+                return true;
+            }
         }
     }
 
@@ -114,15 +120,92 @@ void executePlayerMove() {
     }    
 }
 
+void printArray() {
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            printf("%d, ", board[i][j]);
+        }
+        printf("\n");
+    }
+    
+}
+
+bool checkRowInput() {
+    for (int i = 0; i < 3; i++)
+    {
+        if (nextChoice[0] == rowTitles[i])
+        {
+            return true;
+        }
+        
+    }
+    return false;
+    
+}
+
+bool checkColInput() {
+    for (int i = 0; i < 3; i++)
+    {
+        if (nextChoice[1] == colTitles[i])
+        {
+            return true;
+        }
+        
+    }
+    return false;
+}
+
+bool checkPlayerOnBoard() {
+    int row = getRowFromUserInput();
+    int col = getColFromUserInput();
+
+    if (board[row][col] == 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool inputValid() {
+    if (checkRowInput() && checkColInput())
+    {
+        if (checkPlayerOnBoard())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void printWinner() {
+    if (currentPlayer == 0)
+    {
+        //Winner Player 2
+        printf("\n----- PLAYER 2 HAS WON THE GAME -----\n");
+    } else
+    {
+        //Winner Player 1
+        printf("\n----- PLAYER 1 HAS WON THE GAME -----\n");
+    }
+}
+
 void startGame() {
     printf("\n\n----Let's start the game-----\n");
     printBoard();
     while (!checkForWinner())
     {
         readInPlayerMove();
+        while (!inputValid())
+        {
+            readInPlayerMove();
+        }
+        
         executePlayerMove();
         printBoard();
     }
+    printWinner();
     
 }
 
