@@ -131,7 +131,19 @@ bool checkForWinner() {
         }
     } 
 
-    return false;
+    //check draw
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (board[i][j] == 0)
+            {
+                return false;
+            }
+            
+        }
+    }
+
+    currentPlayer = 3;
+    return true;
     
 }
 
@@ -207,11 +219,14 @@ void printWinner() {
         //Winner Player 2
         score[1]++;
         printf("\n----- PLAYER 2 HAS WON THE GAME -----\n");
-    } else
+    } else if (currentPlayer == 1)
     {
         //Winner Player 1
         score[0]++;
         printf("\n----- PLAYER 1 HAS WON THE GAME -----\n");
+    } else {
+        //Draw
+        printf("\n----- IT'S A DRAW -----\n");
     }
 }
 
