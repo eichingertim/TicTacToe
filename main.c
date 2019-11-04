@@ -142,6 +142,7 @@ bool checkForWinner() {
         }
     }
 
+    //current Player 3 means "it's a draw"
     currentPlayer = 3;
     return true;
     
