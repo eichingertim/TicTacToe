@@ -309,7 +309,7 @@ void printStartText() {
 
 bool askForPlayAgain() {
     char yesNo;
-    printf("Nochmal spielen? (y/N): ");
+    printf("Play again? (y/N): ");
     scanf("%s", &yesNo);
 
     if (yesNo == 'y' || yesNo == 'Y')
